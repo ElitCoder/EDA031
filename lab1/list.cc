@@ -47,15 +47,7 @@ bool List::empty() const {
 }
 
 void List::insertFirst(int d) {
-	if(first == nullptr) {
-		first = new Node(d, nullptr);
-
-		return;
-	}
-
-	Node *node = new Node(d, first);
-
-	first = node;
+	first = new Node(d, first);
 }
 
 void List::remove(int d, DeleteFlag df) {

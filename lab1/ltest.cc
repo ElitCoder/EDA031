@@ -6,7 +6,7 @@ using namespace std;
 int main() {
 	List list;
 	cout << boolalpha;
-	
+
 	cout << "Is empty: " << list.empty() << endl;
 	cout << "Print empty list: ";
 	list.print();
