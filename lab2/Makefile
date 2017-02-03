@@ -18,12 +18,14 @@ LDFLAGS =   -g
 #LDFLAGS +=  -stdlib=libc++
 
 # Targets
-PROGS = trigrams
+PROGS = trigrams spell
 
 all: $(PROGS)
 
 # Targets rely on implicit rules for compiling and linking
-trigrams: trigrams.o
+trigrams: trigrams.o word.o
+
+spell: spell.o dictionary.o
 
 # Phony targets
 .PHONY: all clean

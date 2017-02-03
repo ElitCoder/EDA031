@@ -1,35 +1,53 @@
-#include "trigrams.h"
-
-#include <vector>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
-void readWords(const std::string &filename, std::vector<Word> &words) {
-    std::ifstream in(filename);
+int main() {
+    std::ifstream in("words");
+    std::ofstream out("words.txt");
 
     if(!in) {
         std::cout << "Could not open file\n";
 
-        return;
+        return -1;
     }
 
-    std::string temp;
+    if(!out) {
+        std::cout << "Could not open output file\n";
 
-    while(getline(in, temp)) {
-        std::cout << "Reading word: " << temp << '\n';
-
-        Word word(temp);
-        words.push_back(temp);
+        return -2;
     }
 
+    std::string word;
+
+    while(getline(in, word)) {
+        std::cout << "Reading word: " << word << '\n';
+
+        transform(word.begin(), word.end(), word.begin(), ::tolower);
+
+        std::vector<std::string> trigrams;
+
+        short trigramLength = word.length() - 2;
+
+        for(short i = 0; i < trigramLength; i++) {
+            std::string trigram = word.substr(i, 3);
+
+            trigrams.push_back(trigram);
+        }
+
+        sort(trigrams.begin(), trigrams.end());
+
+        out << word << " " << trigrams.size() << " ";
+
+    	for(const std::string &trigram : trigrams) {
+    		out << trigram << " ";
+    	}
+
+    	out << '\n';
+    }
+
+    out.close();
     in.close();
-}
-
-int main() {
-    const std::string filename = "words";
-    std::vector<Word> words;
-
-    readWords(filename, words);
 
     return 0;
 }
