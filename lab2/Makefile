@@ -25,7 +25,7 @@ all: $(PROGS)
 # Targets rely on implicit rules for compiling and linking
 trigrams: trigrams.o word.o
 
-spell: spell.o dictionary.o
+spell: spell.o dictionary.o word.o
 
 # Phony targets
 .PHONY: all clean

@@ -7,13 +7,21 @@
 #include <vector>
 #include <unordered_set>
 
+enum WORD_LENGTH_MAX {
+	WORD_LENGTH_MAX = 25
+};
+
 class Dictionary {
 public:
 	Dictionary();
+
 	bool contains(const std::string& word) const;
 	std::vector<std::string> get_suggestions(const std::string& word) const;
 private:
-	std::vector<Word> m_words[25];
+	void add_trigram_suggestions(std::vector<std::string> &suggestions, const std::string &word) const;
+	void rank_suggestions(vector<string> &suggestions, string &word) const;
+
+	std::vector<Word> m_words[WORD_LENGTH_MAX];
 };
 
 #endif
