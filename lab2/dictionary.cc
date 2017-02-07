@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <utility>
 #include "word.h"
 #include "dictionary.h"
 
@@ -67,6 +68,8 @@ vector<string> Dictionary::get_suggestions(const string& word) const {
 	vector<string> suggestions;
 
 	add_trigram_suggestions(suggestions, word);
+	auto distances = rank_suggestions(suggestions, word);
+	suggestions = trim_suggestions(distances);
 
 	return suggestions;
 }
@@ -81,25 +84,54 @@ void Dictionary::add_trigram_suggestions(vector<string> &suggestions, const stri
 		for(unsigned short j = 0; j < m_words[i].size(); j++) {
 			const Word &currentWord = m_words[i].at(j);
 
-			if(currentWord.get_word().length() >= word.length() - 1 && currentWord.get_word().length() <= word.length() + 1) {
-				if(misspelled.qualify_trigrams(currentWord)) {
-					suggestions.push_back(currentWord.get_word());
-				}
+			if(misspelled.qualify_trigrams(currentWord)) {
+				suggestions.push_back(currentWord.get_word());
 			}
 		}
 	}
 }
 
-void Dictionary::rank_suggestions(vector<string> &suggestions, string &word) const {
-	int i = 1, j = 1;
+vector<pair<short, string>> Dictionary::rank_suggestions(vector<string> &suggestions, const string &word) const {
+	vector<pair<short, string>> distances;
+	distances.resize(suggestions.size());
 
-	int d[26][26];
-	d[i][0] = i;
-	d[0][j] = j;
+	for(unsigned short x = 0; x < suggestions.size(); x++) {
+		const string &suggestion = suggestions.at(x);
 
-	for(; i < 26; i++) {
-		for(; j < 26; j++) {
-			d[i][j] = min()
+		int d[26][26];
+		d[0][0] = 0;
+
+		for(unsigned short i = 0; i < word.length(); i++) {
+			d[i][0] = i;
 		}
+
+		for(unsigned short i = 0; i < suggestion.length(); i++) {
+			d[0][i] = i;
+		}
+
+		for(unsigned short i = 0; i < word.length(); i++) {
+			for(unsigned short j = 0; j < suggestion.length(); j++) {
+				short add(word[i] == suggestion[j] ? 0 : 1);
+
+				d[i][j] = min(d[i - 1][j - 1] + add, min(d[i - 1][j] + 1, d[i][j - 1] + 1));
+			}
+		}
+
+		distances.push_back(make_pair(d[word.length()][suggestion.length()], suggestion));
 	}
+
+	sort(distances.begin(), distances.end());
+
+	return distances;
+}
+
+vector<string> Dictionary::trim_suggestions(vector<pair<short, string>> &distances) const {
+	vector<string> newSuggestions;
+	for(unsigned short i = 0; i < 5; i++){
+		cout << "Suggestion: " << distances.at(i).second << " with edit distance " << distances.at(i).first << '\n';
+
+		newSuggestions.push_back(distances.at(i).second);
+
+	}
+	return newSuggestions;
 }
