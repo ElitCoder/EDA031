@@ -91,9 +91,8 @@ void Dictionary::add_trigram_suggestions(vector<string> &suggestions, const stri
 	}
 }
 
-vector<pair<short, string>> Dictionary::rank_suggestions(vector<string> &suggestions, const string &word) const {
-	vector<pair<short, string>> distances;
-	distances.resize(suggestions.size());
+vector<pair<int, string>> Dictionary::rank_suggestions(vector<string> &suggestions, const string &word) const {
+	vector<pair<int, string>> distances;
 
 	for(unsigned short x = 0; x < suggestions.size(); x++) {
 		const string &suggestion = suggestions.at(x);
@@ -101,16 +100,16 @@ vector<pair<short, string>> Dictionary::rank_suggestions(vector<string> &suggest
 		int d[26][26];
 		d[0][0] = 0;
 
-		for(unsigned short i = 0; i < word.length(); i++) {
+		for(unsigned short i = 1; i <= word.length(); i++) {
 			d[i][0] = i;
 		}
 
-		for(unsigned short i = 0; i < suggestion.length(); i++) {
+		for(unsigned short i = 1; i <= suggestion.length(); i++) {
 			d[0][i] = i;
 		}
 
-		for(unsigned short i = 0; i < word.length(); i++) {
-			for(unsigned short j = 0; j < suggestion.length(); j++) {
+		for(unsigned short i = 1; i <= word.length(); i++) {
+			for(unsigned short j = 1; j <= suggestion.length(); j++) {
 				short add(word[i] == suggestion[j] ? 0 : 1);
 
 				d[i][j] = min(d[i - 1][j - 1] + add, min(d[i - 1][j] + 1, d[i][j - 1] + 1));
@@ -125,9 +124,9 @@ vector<pair<short, string>> Dictionary::rank_suggestions(vector<string> &suggest
 	return distances;
 }
 
-vector<string> Dictionary::trim_suggestions(vector<pair<short, string>> &distances) const {
+vector<string> Dictionary::trim_suggestions(vector<pair<int, string>> &distances) const {
 	vector<string> newSuggestions;
-	for(unsigned short i = 0; i < 5; i++){
+	for(unsigned short i = 0; i < (distances.size() < 5 ? distances.size() : 5); i++){
 		cout << "Suggestion: " << distances.at(i).second << " with edit distance " << distances.at(i).first << '\n';
 
 		newSuggestions.push_back(distances.at(i).second);

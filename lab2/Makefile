@@ -9,9 +9,6 @@ CC  = g++
 # -g is for debugging.
 CPPFLAGS =  -std=c++11
 CXXFLAGS =  -O2 -Wall -Wextra -pedantic-errors -Wold-style-cast
-CXXFLAGS += -std=c++11
-CXXFLAGS += -g
-LDFLAGS =   -g
 #LDLIBS =	-l lab1
 #CPPFLAGS += -stdlib=libc++
 #CXXFLAGS += -stdlib=libc++
