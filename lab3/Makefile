@@ -7,9 +7,11 @@ CPPFLAGS = -std=c++11
 CXXFLAGS = -O2 -Wall -Wextra -pedantic-errors -Wold-style-cast
 CXXFLAGS += $(DEPFLAGS)
 
-PROGS =
+PROGS = Primtal
 
 all: $(PROGS)
+
+Primtal: Primtal.o
 
 clean:
 	rm -f *.o $(PROGS) *.d
