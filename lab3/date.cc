@@ -45,3 +45,16 @@ void Date::next() {
 		day = 1;
 	}
 }
+
+ostream& operator<<(ostream& out, const Date &date) {
+	return out;
+}
+
+istream& operator>>(istream &in, Date &date) {
+	string input;
+	getline(in, input);
+	
+	
+	
+	return in;
+}
