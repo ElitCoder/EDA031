@@ -4,57 +4,51 @@
 
 using namespace std;
 
-
-    template<typename T>
+template<typename T>
     string toString(T& t) {
 
-        ostringstream iss;
-        iss << t;
+        ostringstream oss;
+        oss << t;
 
-        return iss.str();
-
-
-
-}
-
-
+        return oss.str();
+    }
 
 template<typename T>
-T string_cast(string s){
-    return 0;
-
-
-
-
-}
-
-
-
-
-
-
-
-int main(){
-
+    T string_cast(string s){
+        T temp;
+        istringstream iss(s);
+        iss.exceptions(ios::failbit);
     try {
-        int i = string_cast<int>("123");
-        double d = string_cast<double>("12.34");
-        Date date = string_cast<Date>("2015-01-10");
-}
-    catch (std::invalid_argument& e) {
-    cout << "Error: " << e.what() << endl;
-}
+        iss >> temp;
+
+    } catch(...){
+        throw invalid_argument("Not an acceptable input");
+    }
+
+
+
+        return temp;
 
     }
 
-/*
-            double d = 1.234;
-            Date today;
-            string sd = toString(d);
-            string st = toString(today);
-            cout << sd << "\n" << st << endl;
+int main(){
+    try {
+        int i = string_cast<int>("a");
+        double d = string_cast<double>("12.34");
+        Date date = string_cast<Date>("2015-01-10");
+        cout << i << "\n" << d << "\n" << date << endl;
+    }
+    catch (invalid_argument& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+
+    double d = 1.234;
+    Date today;
+    string sd = toString(d);
+    string st = toString(today);
+    cout << sd << "\n" << st << endl;
 
 
-*/
-            return 0;
-        }
+
+    return 0;
+}
