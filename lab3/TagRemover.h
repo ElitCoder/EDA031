@@ -5,9 +5,14 @@
 
 class TagRemover {
 public:
-    TagRemover(const std::istream &in);
+    TagRemover(std::istream &in);
     
-    void print(const std::ostream &out);
+    void print(std::ostream &out);
+private:
+    void remove(std::ifstream &file, std::string &input);
+    void transform();
+
+    std::string output;
 };
 
 #endif
