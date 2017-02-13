@@ -1,1 +1,0 @@
-Primtal.o: Primtal.cc

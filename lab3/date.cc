@@ -1,5 +1,9 @@
 #include <ctime>  // time and localtime
 #include <iostream>
+#include <iomanip>
+#include <algorithm>
+#include <sstream>
+
 #include "date.h"
 
 using namespace std;
@@ -46,7 +50,11 @@ void Date::next() {
 	}
 }
 
-ostream& operator<<(ostream& out, const Date &date) {
+ostream& operator<<(ostream& out, const Date &d) {
+	cout << setw(4) << setfill('0') << d.getYear() << '-';
+	cout << setw(2) << setfill('0') << d.getMonth() << '-';
+	cout << setw(2) << setfill('0') << d.getDay();
+	
 	return out;
 }
 
@@ -54,7 +62,16 @@ istream& operator>>(istream &in, Date &date) {
 	string input;
 	getline(in, input);
 	
+	replace(input.begin(), input.end(), '-', ' ');
+	istringstream stream(input);
 	
+	stream >> date.year;
+	stream >> date.month;
+	stream >> date.day;
+	
+	if(date.month <= 0 || date.month > 12 || date.day <= 0 || date.day > Date::daysPerMonth[date.month - 1]) {
+		in.setstate(ios_base::failbit);
+	}
 	
 	return in;
 }
