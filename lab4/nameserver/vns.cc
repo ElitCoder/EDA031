@@ -8,14 +8,29 @@
 
 using namespace std;
 
-vector <Pair::pair(string, unsigned int)> kalasKul;
-vector<Pair::pair(string, unsigned int)>::iterator it;
+vector <pair<string, unsigned int>> kalasKul;
+vector<pair<string, unsigned int>>::iterator it;
 
 void vns::insert(const HostName&, const IPAddress&){
 
+
+//HÄMTA SKITEN FRÅN .TXT FILEN
+    ifstream in;
+    in.open("nameserverdata.txt")
+    string name;
+    unsigned int ip;
+
+    if(!in) {
+      std::cout << "Could not open file\n";
+  }
+
+    in >> name;
+    in >> ip;
+
+
     pair<string, unsigned int> p;
 
-    p.make_pair(HostName&, IPAddress&);
+    p.make_pair(name, ip);
 
     kalasKul.push_back(p);
 
@@ -29,11 +44,7 @@ bool vns::remove(const HostName&)
 
     kalasKul.erase(remove(kalasKul.begin(), kalasKul.end(), p), kalasKul.end());
 
-    if(find(kalasKul.begin(), kalasKul.end(), p) != kalaskul.end() == string.npos){
-        return true;
-    }else{
-        return false;
-    }
+    return !(find(kalasKul.begin(), kalasKul.end(), p) != kalaskul.end());
 
 
 
