@@ -1,5 +1,5 @@
-#ifndef VNS_H
-#define VNS_H
+#ifndef MNS_H
+#define MNS_H
 
 #include <iostream>
 
@@ -11,7 +11,7 @@ const IPAddress&
 name/address pairs. Use the find if algorithm to search for a host name. The third
 parameter to the algorithm should be a lambda.
 */
-class VNS : public NameServerInterface {
+class MNS : public NameServerInterface {
 
 public:
 

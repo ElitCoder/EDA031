@@ -1,6 +1,3 @@
-
-
-
 #include "vns.h"
 #include <vector>
 #include <algorithm>
@@ -9,11 +6,10 @@
 using namespace std;
 
 vector <pair<string, unsigned int>> kalasKul;
-vector<pair<string, unsigned int>>::iterator it;
 
 
 VNS::vns(){
-    
+
 }
 
 void VNS::insert(const HostName &host, const IPAddress &ip){
@@ -44,7 +40,7 @@ bool VNS::remove(const HostName &host)
 
 }
 
-IPAddress VNS::lookup(const HostName &host){
+IPAddress VNS::lookup(const HostName &host) const{
 
     int index;
 

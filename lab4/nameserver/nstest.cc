@@ -3,8 +3,9 @@
  */
 #include "nameserverinterface.h"
 #include "vns.h"
-/*
 #include "mns.h"
+/*
+
 #include "umns.h"
 #include "hns.h"
 */
@@ -31,7 +32,7 @@ int main() {
 	VNS vns;
 	test(vns);
 	cout << "Vector passed ..." << endl;
-	
+
 	/*
 	 * Test the map name server.
 	 */
