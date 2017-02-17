@@ -4,9 +4,11 @@
  */
 #include "nameserverinterface.h"
 #include "vns.h"
+/*
 #include "mns.h"
 #include "umns.h"
 #include "hns.h"
+*/
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -85,14 +87,15 @@ int main() {
 	/*
 	 * The map implementations.
 	 */
+	 /*
 	MNS mns;
 	UMNS umns;
-	
+	*/
 	/*
 	 * The hash table implementation. The size of the hash table is
 	 * a parameter to the constructor.
 	 */
-	HNS hns(17441);
+	//HNS hns(17441);
 	
 	/*
 	 * data is a vector containing the name/address pairs. Used by the
@@ -116,9 +119,9 @@ int main() {
 	while (in >> name >> nbr) {
 		data.push_back(dns_record(name, nbr));
 		vns.insert(name, nbr);
-		mns.insert(name, nbr);
-		umns.insert(name, nbr);
-		hns.insert(name, nbr);
+		//mns.insert(name, nbr);
+		//umns.insert(name, nbr);
+		//hns.insert(name, nbr);
 	}
 	cout << " read " << data.size() << " words." << endl;
 	
@@ -143,6 +146,7 @@ int main() {
 	double avgTime = measureTime(vns, data, nbrSearches, seed);
 	cout << "Average search time (ms): " << avgTime << endl;
 	
+	/*
 	cout << "Test map. Number of searches: ";
 	cin >> nbrSearches;
 	avgTime = measureTime(mns, data, nbrSearches, seed);
@@ -157,4 +161,5 @@ int main() {
 	cin >> nbrSearches;
 	avgTime = measureTime(hns, data, nbrSearches, seed);
 	cout << "Average search time (ms): " << avgTime << endl;
+	*/	
 }
