@@ -12,6 +12,9 @@ vector <pair<string, unsigned int>> kalasKul;
 vector<pair<string, unsigned int>>::iterator it;
 
 
+VNS::vns(){
+    
+}
 
 void VNS::insert(const HostName &host, const IPAddress &ip){
 

@@ -14,7 +14,7 @@ parameter to the algorithm should be a lambda.
 class VNS : public NameServerInterface {
 
 public:
-    vns();
+    
     void insert(const HostName&, const IPAddress&);
     bool remove(const HostName&);
     IPAddress lookup(const HostName&);
