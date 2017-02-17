@@ -11,7 +11,7 @@ using namespace std;
 vector <pair<string, unsigned int>> kalasKul;
 vector<pair<string, unsigned int>>::iterator it;
 
-void vns::insert(const HostName&, const IPAddress&){
+void VNS::insert(const HostName&, const IPAddress&){
 
 
 //HÄMTA SKITEN FRÅN .TXT FILEN
@@ -38,7 +38,7 @@ void vns::insert(const HostName&, const IPAddress&){
 
 }
 
-bool vns::remove(const HostName&)
+bool VNS::remove(const HostName&)
     pair<string, unsigned int> p;
     p.make_pair(HostName&, lookup(HostName&));
 
@@ -50,7 +50,7 @@ bool vns::remove(const HostName&)
 
 }
 
-IPAddress vns::lookup(const HostName&){
+IPAddress VNS::lookup(const HostName&){
 
     int index;
 

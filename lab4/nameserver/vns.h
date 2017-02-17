@@ -3,14 +3,15 @@
 
 #include <iostream>
 
+/*
 const HostName&
 const IPAddress&
-
+*/
 /* Implement a class VNS (vector name server) that uses an unsorted vector to store the
 name/address pairs. Use the find if algorithm to search for a host name. The third
 parameter to the algorithm should be a lambda.
 */
-Class vns : public NameServerInterface {
+class VNS : public NameServerInterface {
 
 public:
     vns(){}
