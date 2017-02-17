@@ -11,26 +11,17 @@ using namespace std;
 vector <pair<string, unsigned int>> kalasKul;
 vector<pair<string, unsigned int>>::iterator it;
 
-void VNS::insert(const HostName&, const IPAddress&){
 
 
-//HÄMTA SKITEN FRÅN .TXT FILEN
-    ifstream in;
-    in.open("nameserverdata.txt")
-    string name;
-    unsigned int ip;
-
-    if(!in) {
-      std::cout << "Could not open file\n";
-  }
-
-    in >> name;
-    in >> ip;
+void VNS::insert(const HostName &host, const IPAddress &ip){
 
 
-    pair<string, unsigned int> p;
 
-    p.make_pair(name, ip);
+
+
+    pair<HostName, IPAddress> p;
+
+    p.make_pair(host, ip);
 
     kalasKul.push_back(p);
 
@@ -38,9 +29,9 @@ void VNS::insert(const HostName&, const IPAddress&){
 
 }
 
-bool VNS::remove(const HostName&)
+bool VNS::remove(const HostName &host)
     pair<string, unsigned int> p;
-    p.make_pair(HostName&, lookup(HostName&));
+    p.make_pair(host, lookup(host));
 
     kalasKul.erase(remove(kalasKul.begin(), kalasKul.end(), p), kalasKul.end());
 
@@ -50,13 +41,13 @@ bool VNS::remove(const HostName&)
 
 }
 
-IPAddress VNS::lookup(const HostName&){
+IPAddress VNS::lookup(const HostName &host){
 
     int index;
 
     if(find_if(kalasKul.begin(), kalasKul.end(), lambda) != kalasKul.end()) {
         //the HostName exists in the vector
-        index = find((kalasKul.begin(), kalasKul.end(), HostName&) - kalasKul.begin();
+        index = find((kalasKul.begin(), kalasKul.end(), host) - kalasKul.begin();
 
 
 
