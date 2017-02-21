@@ -1,0 +1,11 @@
+n = 290054
+
+vector: O(n)
+map:	O(log(n))
+unmap:	O(1)
+hash:	O(1)
+
+vector: 2.2995718039
+map: 	0.0010544663235648
+uomap:	<same>
+hash:	<same>

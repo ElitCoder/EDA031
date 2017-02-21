@@ -4,11 +4,9 @@
 #include "nameserverinterface.h"
 #include "vns.h"
 #include "mns.h"
-/*
-
 #include "umns.h"
 #include "hns.h"
-*/
+
 #include <iostream>
 #include <cassert>
 
@@ -36,26 +34,22 @@ int main() {
 	/*
 	 * Test the map name server.
 	 */
-	 /*
 	MNS mns;
 	test(mns);
 	cout << "Map passed ..." << endl;
-	*/
+
 	/*
 	 * Test the unordered map name server.
 	 */
-	 /*
 	UMNS umns;
 	test(umns);
 	cout << "Unordered map passed ..." << endl;
-	*/
 	/*
 	 * Test the hash name server.
 	 * The parameter to the constructor is the size of the
 	 * hash table.
 	 */
-	 /*
 	HNS hns(4711);
 	test(hns);
 	cout << "Hash passed ..." << endl;
-*/}
+}

@@ -11,13 +11,9 @@ PROGS = nstest nstime
 
 all: $(PROGS)
 
-nstest: nstest.o
+nstest: nstest.o vns.o mns.o umns.o hns.o
 
-nstime: nstime.o
-
-vns: vns.o
-
-mns: mns.o
+nstime: nstime.o vns.o mns.o umns.o hns.o
 
 clean:
 	rm -f *.o $(PROGS) *.d

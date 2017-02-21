@@ -1,41 +1,32 @@
 #include "mns.h"
-#include <vector>
+
 #include <map>
 #include <algorithm>
-#include <iostream>
 
 using namespace std;
 
-
-map<string, unsigned int> map;
-
-MNS::mns(){
-
-}
-void MNS::insert(const HostName &host, const IPAddress &ip){
-
+void MNS::insert(const HostName &host, const IPAddress &ip) {
     map[host] = ip;
 }
 
-bool MNS::remove(const HostName &host)
+bool MNS::remove(const HostName &host) {
+    auto position = map.find(host);
 
-    map.erase(host);
+    if(position == map.end()) {
+        return false;
+    }
 
-    return !(map.find(host) != map.end());
-
-
+    map.erase(position);
+    //returns true if not equal to the end == object does not exist
+    return true;
 }
 
-IPAddress MNS::lookup(const HostName &host) const{
-    IPAddress value;
+IPAddress MNS::lookup(const HostName &host) const {
+    auto position = map.find(host);
 
-    if(map.find(host) =! map.end()){
-        value = map.at(host);
-        return value;
-
+    if(position != map.end()){
+        return position->second;
     }else{
         return NON_EXISTING_ADDRESS;
     }
-
-
 }
