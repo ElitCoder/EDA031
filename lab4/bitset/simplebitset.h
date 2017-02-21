@@ -19,7 +19,7 @@ private:
 	using BitStorage = unsigned long;
 	BitStorage bits;
 	static const std::size_t
-	    BPW = std::numeric_limits<BitStorage>::digits;
+			BPW = std::numeric_limits<BitStorage>::digits;
 };
 
 #endif

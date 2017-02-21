@@ -11,13 +11,15 @@ void print(const SimpleBitset& bs) {
 
 int main() {
 	// Define an empty bitset, set every third bit, print
+	cout << "Using " << std::numeric_limits<unsigned long>::digits << " bits for unsigned long.\n";
+
 	SimpleBitset bs;
 	for (size_t i = 0; i < bs.size(); i += 3) {
 		bs.set(i, true);
 	}
 	print(bs);
 	cout << endl;
-	
+
 	// Find the first five bits that are set, complement them, print
 	size_t cleared = 0;
 	size_t pos = 0;
@@ -30,7 +32,7 @@ int main() {
 	}
 	print(bs);
 	cout << endl;
-	
+
 	// Count the number of set bits, print
 	size_t set = 0;
 	for (size_t i = 0; i != bs.size(); ++i) {

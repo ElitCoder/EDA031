@@ -4,7 +4,7 @@
 
 /*
  *         TEST, VERSION 1
- * There are two versions of the test program. The first version uses 
+ * There are two versions of the test program. The first version uses
  * only operator[] and BitReferences. When this works, implement
  * the class BitsetIterator and use version 2 in bitsettest2.cc.
  *
@@ -26,7 +26,7 @@ int main() {
 	}
 	print(bs);
 	cout << endl;
-	
+
 	// Find the first five bits that are set, complement them, print
 	size_t cleared = 0;
 	size_t pos = 0;
