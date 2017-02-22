@@ -18,7 +18,7 @@ bool HNS::remove(const HostName &host) {
     auto hash = hashKey(host);
     vector<pair<HostName, IPAddress>> &table = hashTable.at(hash);
 
-    auto position = find_if(table.begin(), table.end(), [host](const pair<HostName, IPAddress> &x) { return x.first == host; });
+    auto position = find_if(table.begin(), table.end(), [&host](const pair<HostName, IPAddress> &x) { return x.first == host; });
 
     if(position == table.end()) {
         return false;
@@ -33,7 +33,7 @@ IPAddress HNS::lookup(const HostName &host) const {
     auto hash = hashKey(host);
     const vector<pair<HostName, IPAddress>> &table = hashTable.at(hash);
 
-    auto position = find_if(table.begin(), table.end(), [host](const pair<HostName, IPAddress> &x) { return x.first == host; });
+    auto position = find_if(table.begin(), table.end(), [&host](const pair<HostName, IPAddress> &x) { return x.first == host; });
 
     if(position == table.end()) {
         return NON_EXISTING_ADDRESS;

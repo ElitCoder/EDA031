@@ -5,6 +5,8 @@ map:	O(log(n))
 unmap:	O(1)
 hash:	O(1)
 
+n = 1000000
+
 vector: 2.2995718039
 map: 	0.0010544663235648
 uomap:	<same>

@@ -24,7 +24,7 @@ public:
 	/*
 	 * This operator= is used for bs[i] = bs[j].
 	 */
-	BitReference& operator=(const BitReference& rhs);
+	//BitReference& operator=(const BitReference& rhs);
 
 	/*
 	 * Operator bool() is used for b = bs[i].

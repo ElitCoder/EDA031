@@ -14,8 +14,8 @@ public:
 	BitsetIterator(Bitset::BitStorage* pb, std::size_t p) : ref(pb, p) {}
 
 	bool operator!=(const BitsetIterator& bsi) const {
-		return bsi.ref.pos != ref.pos;
-		
+		return bsi.ref.pos != ref.pos || bsi.ref.p_bits != ref.p_bits;
+
 	}
 
 	BitsetIterator& operator++() {
