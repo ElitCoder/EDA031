@@ -2,6 +2,7 @@
 #include "connection.h"
 #include "connectionclosedexception.h"
 #include "messagehandler.h"
+#include "process.h"
 
 #include <iostream>
 
@@ -33,13 +34,18 @@ int main(int argc, const char **argv) {
     }
     
     MessageHandler messageHandler;
+    Process process;
     
     while(true) {
         auto conn = server.waitForActivity();
         
         if(conn != nullptr) {
             try {
-                messageHandler.read(conn);
+                auto &packet = messageHandler.read(conn);
+                auto &response = process.process(packet);
+                
+                messageHandler.send(conn, response);
+                
             } catch(ConnectionClosedException &e) {
                 server.deregisterConnection(conn);
                 

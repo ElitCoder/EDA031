@@ -2,9 +2,9 @@ CXX = g++
 CC  = g++
 
 CPPFLAGS  = -std=c++11 -I../clientserver/
-CXXFLAGS  = -g -O2 -Wall -W -pedantic-errors
+CXXFLAGS  = -O2 -Wall -W -pedantic-errors
 CXXFLAGS += -Wmissing-braces -Wparentheses -Wold-style-cast 
-LDFLAGS   = -g -L../clientserver/
+LDFLAGS   = -L../clientserver/
 
 LDLIBS = -lclientserver
 
@@ -12,7 +12,7 @@ PROGS = newsserver
 
 all: $(PROGS)
 
-newsserver: newsserver.o messagehandler.o
+newsserver: newsserver.o messagehandler.o packet.o process.o newsgroup.o article.o databasememory.o
 
 clean:
 	rm -f *.o $(PROGS) *.d*
