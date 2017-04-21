@@ -1,11 +1,19 @@
 #include "packet.h"
 #include "protocol.h"
+#include "connectionclosedexception.h"
 
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 Packet::Packet() : m_finalized(false), m_read(1) {
+}
+
+ostream& operator<<(ostream& out, const Packet &packet) {
+    for_each(packet.m_data.begin(), packet.m_data.end(), [&out] (const unsigned char c) { out << hex << c << dec << " "; });
+    
+    return out;
 }
 
 bool Packet::isEditable() {
@@ -63,6 +71,7 @@ void Packet::addTail(const unsigned char tail) {
 void Packet::clean() {
     m_data.clear();
     m_finalized = false;
+    m_read = 1;
 }
 
 void Packet::finish() {
@@ -77,23 +86,37 @@ unsigned char Packet::getHeader() const {
     if(m_data.size() == 0) {
         cout << "ERROR: Caught getHeader() with packet-size 0.\n";
         
-        return -1;
+        throw ConnectionClosedException();
     }
     
     return m_data.at(0);
 }
 
 string Packet::getString() {
-    unsigned int size = m_data.at(++m_read);
+    ++m_read; //SKIP PAR_STRING
+    unsigned int size = getInt(false);
     string str;
     
-    for(unsigned int current = m_read; current != size + m_read; ++current) {
-        str += m_data.at(++m_read);
+    cout << "String with size: " << size << endl;
+    
+    for(unsigned int i = 0; i != size; ++i) {
+        str += m_data.at(m_read++);
     }
+    
+    cout << "Successfully read string.\n";
     
     return str;
 }
 
-unsigned int Packet::getInt() {
-    cout << "ERROR: NOT IMPLEMENTED.\n";
+unsigned int Packet::getInt(const bool identifier) {
+    if(identifier) {
+        ++m_read; //SKIP PAR_NUM
+    }
+    
+    unsigned char byte1 = m_data.at(m_read++);
+    unsigned char byte2 = m_data.at(m_read++);
+    unsigned char byte3 = m_data.at(m_read++);
+    unsigned char byte4 = m_data.at(m_read++);
+
+    return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
 }

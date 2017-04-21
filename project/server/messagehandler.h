@@ -18,8 +18,6 @@ public:
     
 private:
     bool isValidCommand(const unsigned char command) const;
-    //std::string readString(const std::shared_ptr<Connection> &conn);
-    //int readInt(const std::shared_ptr<Connection> &conn);
     
     Packet m_packet;
 };

@@ -23,6 +23,11 @@ public:
 private:
     void commandListNewsgroups();
     void commandCreateNewsgroup();
+    void commandDeleteNewsgroup();
+    void commandListArticles();
+    void commandCreateArticle();
+    void commandGetArticle();
+    void commandDeleteArticle();
     
     Packet *m_currentPacket;
     Packet m_response;

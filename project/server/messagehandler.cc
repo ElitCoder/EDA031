@@ -10,28 +10,6 @@ using namespace std;
 MessageHandler::MessageHandler() {
 }
 
-/*
-string MessageHandler::readString(const std::shared_ptr<Connection> &conn) {
-    string str;
-    unsigned char temp;
-    
-    while((temp = conn->read()) != '$') {
-        str += temp;
-    }
-    
-    return str;
-}
-
-int MessageHandler::readInt(const std::shared_ptr<Connection> &conn) {
-    unsigned char byte1 = conn->read();
-    unsigned char byte2 = conn->read();
-    unsigned char byte3 = conn->read();
-    unsigned char byte4 = conn->read();
-
-    return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
-}
-*/
-
 bool MessageHandler::isValidCommand(const unsigned char command) const {
     return true;
     
@@ -42,6 +20,8 @@ Packet& MessageHandler::read(const shared_ptr<Connection> &conn) {
     m_packet.clean();
     
     unsigned char command = conn->read();
+    
+    printf("GOT COMMAND: %.2X.\n", command);
     
     if(!isValidCommand(command)) {
         cout << "Unknown command, disconnection client.\n";
@@ -58,51 +38,6 @@ Packet& MessageHandler::read(const shared_ptr<Connection> &conn) {
     m_packet.finish();
     
     return m_packet;
-    /*
-    m_packet.clean();
-    
-    unsigned char command = conn->read();
-    
-    cout << "Received command: 0x";
-    printf("%.2X.\n", command);
-    
-    m_packet.addHeader(command);
-    
-    switch(command) {
-        case Protocol::COM_LIST_NG:
-            {
-                cout << "Recevied COM_LIST_NG.\n";
-            }
-            break;
-            
-        case Protocol::COM_CREATE_NG:
-            {
-                m_packet.addString(readString(conn));
-            }
-            break;
-            
-        default:
-            {
-                cout << "Unknown command, disconnection client.\n";
-                
-                throw ConnectionClosedException();
-            }
-    }
-    
-    command = conn->read();
-    
-    if(command != Protocol::COM_END) {
-        cout << "Packet was not processed properly.\n";
-    }
-    
-    else {
-        cout << "Received COM_END.\n";
-    }
-    
-    m_packet.addTail(command);
-    
-    return m_packet;
-    */
 }
 
 void MessageHandler::send(const shared_ptr<Connection> &conn, const Packet &packet) const {

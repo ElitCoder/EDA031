@@ -8,6 +8,8 @@ class Packet {
 public:
     Packet();
     
+    friend std::ostream& operator<<(std::ostream& out, const Packet &packet);
+    
     void addInt(const int value, const bool identifier = true);
     void addString(const std::string &str);
     void addByte(const unsigned char byte);
@@ -21,7 +23,7 @@ public:
     
     unsigned char getHeader() const;
     std::string getString();
-    unsigned int getInt();
+    unsigned int getInt(const bool identifier = true);
     
 private:
     bool isEditable();
