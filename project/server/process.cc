@@ -149,14 +149,13 @@ void Process::commandCreateArticle() {
     string author = m_currentPacket->getString();
     string text = m_currentPacket->getString();
     
-    cout << "NOT DONE\n";
-    
-    /*
-    bool result = m_database->createArticle(id, title, author, text);
+    Newsgroup *newsgroup = m_database->getNewsgroup(id);
     
     m_response.addByte(Protocol::ANS_CREATE_ART);
     
-    if(result) {
+    if(newsgroup != nullptr) {
+        m_database->createArticle(newsgroup, title, author, text);
+        
         m_response.addByte(Protocol::ANS_ACK);
     }
     
@@ -166,7 +165,6 @@ void Process::commandCreateArticle() {
     }
     
     m_response.addByte(Protocol::ANS_END);
-    */
 }
 
 void Process::commandGetArticle() {
@@ -205,26 +203,27 @@ void Process::commandDeleteArticle() {
     int groupId = m_currentPacket->getInt();
     int articleId = m_currentPacket->getInt();
     
-    const Newsgroup *newsgroup = m_database->getNewsgroup(groupId);
-    
-    if(newsgroup != nullptr) {
-        bool result = m_database->deleteArticle(newsgroup, articleId);
-    }
-    
-    /*
-    bool result = m_database->deleteArticle(groupId, articleId);
+    Newsgroup *newsgroup = m_database->getNewsgroup(groupId);
     
     m_response.addByte(Protocol::ANS_DELETE_ART);
     
-    if(result) {
-        m_response.addByte(Protocol::ANS_ACK);
+    if(newsgroup != nullptr) {
+        bool result = m_database->deleteArticle(newsgroup, articleId);
+        
+        if(result) {
+            m_response.addByte(Protocol::ANS_ACK);
+        }
+        
+        else {
+            m_response.addByte(Protocol::ANS_NAK);
+            m_response.addByte(Protocol::ERR_ART_DOES_NOT_EXIST);
+        }
     }
     
     else {
         m_response.addByte(Protocol::ANS_NAK);
-        m_response.addByte(Protocol::ERR_ART_DOES_NOT_EXIST);
+        m_response.addByte(Protocol::ERR_NG_DOES_NOT_EXIST);
     }
-    */
     
     m_response.addByte(Protocol::ANS_END);
 }

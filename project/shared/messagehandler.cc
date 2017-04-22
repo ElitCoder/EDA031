@@ -22,21 +22,29 @@ Packet& MessageHandler::read(const shared_ptr<Connection> &conn) {
         throw ConnectionClosedException();
     }
     
-    while(command != Protocol::COM_END) {
+    /*
+    while(command != Protocol::COM_END && command != Protocol::ANS_END) {
         m_packet.addByte(command);
         
         command = conn->read();
     }
-    
-    /*
-    m_packet.addByte(command);
-    
-    while((command = conn->read()) != Protocol::COM_END) {
-        m_packet.addByte(command);
-    }
-    
-    m_packet.finish();
     */
+    
+    unsigned char commandByte = command;
+    
+    while(true) {
+        m_packet.addByte(command);
+        
+        //NOT WORKING
+        //TODO
+        //TODO
+        
+        if(command == Protocol::COM_END || command == Protocol::ANS_END) {
+            break;
+        }
+        
+        command = conn->read();
+    }
     
     return m_packet;
 }
@@ -44,8 +52,8 @@ Packet& MessageHandler::read(const shared_ptr<Connection> &conn) {
 void MessageHandler::send(const shared_ptr<Connection> &conn, const Packet &packet) const {
     auto &data = packet.data();
     
-    cout << "Sending response: 0x";
-    printf("%.2X with length (%zu).\n", packet.getHeader(), data.size());
+    //cout << "Sending response: 0x";
+    //printf("%.2X with length (%zu).\n", packet.getHeader(), data.size());
     
     for_each(data.begin(), data.end(), [&conn] (const unsigned char c) { conn->write(c); });
 }

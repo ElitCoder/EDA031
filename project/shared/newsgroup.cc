@@ -4,11 +4,11 @@
 
 using namespace std;
 
-Newsgroup::Newsgroup(const string &name, const unsigned int id) : m_name(name), m_id(id), m_articleId(1) {
+Newsgroup::Newsgroup(const string &name, const unsigned int id) : m_name(name), m_id(id), m_articleId(0) {
 }
 
 void Newsgroup::createArticle(const string &title, const string &author, const string &text) {
-    m_articles.push_back(Article(title, author, text, m_articleId++));
+    m_articles.push_back(Article(title, author, text, ++m_articleId));
 }
 
 unsigned int Newsgroup::getId() const {

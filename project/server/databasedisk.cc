@@ -1,18 +1,37 @@
 #include "databasedisk.h"
 
+#include <algorithm>
+
 using namespace std;
 
 bool DatabaseDisk::createNewsgroup(const string &name) {
-    return false;
+    auto iterator = find_if(m_newsgroups.begin(), m_newsgroups.end(), [&name] (const Newsgroup &newsgroup) { return newsgroup.getName() == name; });
+    
+    if(iterator != m_newsgroups.end()) {
+        return false;
+    }
+    
+    m_newsgroups.push_back(Newsgroup(name, ++m_newsgroupId));
+    
+    return true;
 }
 
 bool DatabaseDisk::deleteNewsgroup(const int id) {
-    return false;
+    auto iterator = find_if(m_newsgroups.begin(), m_newsgroups.end(), [&id] (const Newsgroup &newsgroup) { return newsgroup.getId() == static_cast<unsigned int>(id); });
+    
+    if(iterator == m_newsgroups.end()) {
+        return false;
+    }
+    
+    m_newsgroups.erase(iterator);
+    
+    return true;
 }
 
-void DatabaseDisk::createArticle(const Newsgroup *newsgroup, const string &title, const string &author, const string &text) {
+void DatabaseDisk::createArticle(Newsgroup *newsgroup, const string &title, const string &author, const string &text) {
+    newsgroup->createArticle(title, author, text);
 }
 
-bool DatabaseDisk::deleteArticle(const Newsgroup *newsgroup, const int id) {
-    return false;
+bool DatabaseDisk::deleteArticle(Newsgroup *newsgroup, const int id) {
+    return newsgroup->deleteArticle(id);
 }

@@ -3,6 +3,7 @@
 #include "connectionclosedexception.h"
 #include "messagehandler.h"
 #include "process.h"
+#include "invalidprotocolexception.h"
 
 #include <iostream>
 #include <limits.h>
@@ -54,7 +55,7 @@ int main(int argc, const char **argv) {
     
     else {
         cout << "Server started at port " << port << ".\n";
-        cout << "Using database-type: " << (usingMemory ? "memory" : "disk") << endl;
+        cout << "Using database-type: " << (usingMemory ? "memory." : "disk.") << endl;
         cout << "---------------------------------------\n";
     }
     
@@ -75,6 +76,10 @@ int main(int argc, const char **argv) {
                 server.deregisterConnection(conn);
                 
                 cout << "Closed client connection.\n";
+            } catch(InvalidProtocolException &e) {
+                server.deregisterConnection(conn);
+                
+                cout << "Invalid protocol from client - disconnecting.\n";
             }
         }
         

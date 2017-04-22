@@ -20,8 +20,7 @@ public:
     
 private:
     std::string m_name;
-    unsigned int m_id;
-    unsigned int m_articleId;
+    unsigned int m_id, m_articleId;
     
     std::vector<Article> m_articles;
 };

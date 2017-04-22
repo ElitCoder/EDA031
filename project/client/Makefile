@@ -8,11 +8,11 @@ LDFLAGS   = -L../shared/
 
 LDLIBS = -lclientserver -lcommunication
 
-PROGS = newsserver
+PROGS = newsclient
 
 all: $(PROGS)
 
-newsserver: newsserver.o process.o databasememory.o database.o databasedisk.o
+newsclient: newsclient.o input.o process.o commander.o
 
 clean:
 	rm -f *.o $(PROGS) *.d*

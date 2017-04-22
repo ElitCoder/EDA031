@@ -1,6 +1,6 @@
 #include "packet.h"
 #include "protocol.h"
-#include "connectionclosedexception.h"
+#include "invalidprotocolexception.h"
 
 #include <iostream>
 #include <algorithm>
@@ -8,6 +8,16 @@
 using namespace std;
 
 Packet::Packet() : m_read(1) {
+}
+
+void Packet::print() const {
+    cout << "\n\nPacket contains: ";
+    for_each(m_data.begin(), m_data.end(), [] (const unsigned char c) { printf("0x%.2X ", c); });
+    cout << endl;
+    
+    cout << "In clear text: ";
+    for_each(m_data.begin(), m_data.end(), [] (const unsigned char c) { cout << c << " "; });
+    cout << "\n\n";
 }
 
 void Packet::addInt(const int value, const bool identifier) {
@@ -43,9 +53,7 @@ const vector<unsigned char>& Packet::data() const {
 
 unsigned char Packet::getHeader() const {
     if(m_data.empty()) {
-        cout << "ERROR: Caught getHeader() with packet-size 0.\n";
-        
-        throw ConnectionClosedException();
+        throw InvalidProtocolException();
     }
     
     return m_data.at(0);
@@ -55,7 +63,11 @@ string Packet::getString() {
     ++m_read; //SKIP PAR_STRING
     unsigned int size = getInt(false);
     string str;
-        
+    
+    if(m_data.size() <= (m_read + size)) {
+        throw InvalidProtocolException();
+    }
+    
     for(unsigned int i = 0; i != size; ++i) {
         str += m_data.at(m_read++);
     }
@@ -68,10 +80,18 @@ unsigned int Packet::getInt(const bool identifier) {
         ++m_read; //SKIP PAR_NUM
     }
     
+    if(m_data.size() <= (m_read + 4)) {
+        throw InvalidProtocolException();
+    }
+    
     unsigned char byte1 = m_data.at(m_read++);
     unsigned char byte2 = m_data.at(m_read++);
     unsigned char byte3 = m_data.at(m_read++);
     unsigned char byte4 = m_data.at(m_read++);
 
     return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
+}
+
+unsigned char Packet::getByte() {
+    return m_data.at(m_read++);
 }

@@ -14,10 +14,12 @@ public:
     
     const std::vector<unsigned char>& data() const;
     void clean();
+    void print() const;
     
     unsigned char getHeader() const;
     std::string getString();
     unsigned int getInt(const bool identifier = true);
+    unsigned char getByte();
     
 private:    
     std::vector<unsigned char> m_data;    
