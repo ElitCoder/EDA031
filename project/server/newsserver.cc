@@ -59,7 +59,7 @@ int main(int argc, const char **argv) {
         cout << "---------------------------------------\n";
     }
     
-    MessageHandler messageHandler;
+    //MessageHandler messageHandler;
     Process process(usingMemory);
     
     while(true) {
@@ -67,10 +67,13 @@ int main(int argc, const char **argv) {
         
         if(conn != nullptr) {
             try {
-                auto &packet = messageHandler.read(conn);
-                auto &response = process.process(packet);
+                //auto &packet = messageHandler.read(conn);
+                //auto &response = process.process(conn/*packet*/);
+                process.process(conn);
                 
-                messageHandler.send(conn, response);
+                //messageHandler.send(conn, response);
+                //auto &data = packet.data();
+                //for_each(data.begin(), data.end(), [&conn] (const unsigned char c) { conn->write(c); });
                 
             } catch(ConnectionClosedException &e) {
                 server.deregisterConnection(conn);

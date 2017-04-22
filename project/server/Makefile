@@ -12,7 +12,7 @@ PROGS = newsserver
 
 all: $(PROGS)
 
-newsserver: newsserver.o process.o databasememory.o database.o databasedisk.o
+newsserver: newsserver.o process.o databasememory.o database.o databasedisk.o stream.o
 
 clean:
 	rm -f *.o $(PROGS) *.d*

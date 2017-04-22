@@ -1,9 +1,9 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-#include "packet.h"
 #include "database.h"
 #include "connection.h"
+#include "stream.h"
 
 #include <memory>
 
@@ -18,7 +18,7 @@ public:
     Process(const Process &&process) = delete;
     Process& operator==(const Process &&process) = delete;
     
-    Packet& process(Packet &packet);
+    void process(/*Packet &packet*/std::shared_ptr<Connection> &conn);
     
 private:
     void commandListNewsgroups();
@@ -29,9 +29,10 @@ private:
     void commandGetArticle();
     void commandDeleteArticle();
     
-    Packet *m_currentPacket;
-    Packet m_response;
+    //Packet *m_currentPacket;
+    //Packet m_response;
     Database *m_database;
+    Stream m_stream;
 };
 
 #endif
