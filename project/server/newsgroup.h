@@ -16,6 +16,7 @@ public:
     unsigned int getId() const;
     const std::string& getName() const;
     const std::vector<Article>& getArticles() const;
+    const Article* getArticle(const int id) const;
     
 private:
     std::string m_name;

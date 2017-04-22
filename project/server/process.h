@@ -9,7 +9,7 @@
 
 class Process {
 public:
-    Process();
+    Process(const bool databaseType);
     ~Process();
     
     Process(const Process &process) = delete;

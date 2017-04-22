@@ -7,35 +7,36 @@
 
 using namespace std;
 
-MessageHandler::MessageHandler() {
-}
-
 bool MessageHandler::isValidCommand(const unsigned char command) const {
-    return true;
-    
-    //TODO
+    return ((command >= Protocol::COM_LIST_NG && command <= Protocol::COM_GET_ART) || (command >= Protocol::ANS_LIST_NG && command <= Protocol::ANS_GET_ART));
 }
 
 Packet& MessageHandler::read(const shared_ptr<Connection> &conn) {
     m_packet.clean();
     
     unsigned char command = conn->read();
-    
-    printf("GOT COMMAND: %.2X.\n", command);
-    
+        
     if(!isValidCommand(command)) {
-        cout << "Unknown command, disconnection client.\n";
+        cout << "Unknown command - disconnecting client.\n";
         
         throw ConnectionClosedException();
     }
     
-    m_packet.addHeader(command);
+    while(command != Protocol::COM_END) {
+        m_packet.addByte(command);
+        
+        command = conn->read();
+    }
+    
+    /*
+    m_packet.addByte(command);
     
     while((command = conn->read()) != Protocol::COM_END) {
         m_packet.addByte(command);
     }
     
     m_packet.finish();
+    */
     
     return m_packet;
 }

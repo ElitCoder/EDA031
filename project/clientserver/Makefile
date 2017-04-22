@@ -12,7 +12,7 @@ CC  = g++
 CPPFLAGS =  -std=c++11
 CXXFLAGS =  -O2 -Wall -Wextra -pedantic-errors -Wold-style-cast 
 CXXFLAGS += -std=c++11 
-#CXXFLAGS += -g
+CXXFLAGS += -g
 #CXXFLAGS =  -stdlib=libc++
 #CPPFLAGS =  -stdlib=libc++
 #CXXFLAGS += -stdlib=libc++

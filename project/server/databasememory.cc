@@ -4,6 +4,7 @@
 
 using namespace std;
 
+/*
 const vector<Newsgroup>& DatabaseMemory::getNewsgroups() const {
     return m_newsgroups;
 } 
@@ -17,6 +18,7 @@ const vector<Article>& DatabaseMemory::getArticles(const int id) const {
     
     return iterator->getArticles();
 }
+*/
 
 bool DatabaseMemory::createNewsgroup(const string &name) {
     auto iterator = find_if(m_newsgroups.begin(), m_newsgroups.end(), [&name] (const Newsgroup &newsgroup) { return newsgroup.getName() == name; });
@@ -42,13 +44,17 @@ bool DatabaseMemory::deleteNewsgroup(const int id) {
     return true;
 }
 
+/*
 bool DatabaseMemory::newsgroupExists(const int id) {
     auto iterator = find_if(m_newsgroups.begin(), m_newsgroups.end(), [&id] (const Newsgroup &newsgroup) { return newsgroup.getId() == static_cast<unsigned int>(id); });
     
     return iterator != m_newsgroups.end();
 }
+*/
 
-bool DatabaseMemory::createArticle(const int id, const string &title, const string &author, const string &text) {
+void DatabaseMemory::createArticle(const Newsgroup *newsgroup, const string &title, const string &author, const string &text) {
+    newsgroup->createArticle(title, author, text);
+    /*
     auto iterator = find_if(m_newsgroups.begin(), m_newsgroups.end(), [&id] (const Newsgroup &newsgroup) { return newsgroup.getId() == static_cast<unsigned int>(id); });
     
     if(iterator == m_newsgroups.end()) {
@@ -57,28 +63,12 @@ bool DatabaseMemory::createArticle(const int id, const string &title, const stri
     
     iterator->createArticle(title, author, text);
     
-    return true;
+    return true;*/
 }
 
-const Article* DatabaseMemory::getArticle(const int groupId, const int articleId) const {
-    auto iterator = find_if(m_newsgroups.begin(), m_newsgroups.end(), [&groupId] (const Newsgroup &newsgroup) { return newsgroup.getId() == static_cast<unsigned int>(groupId); });
-    
-    if(iterator == m_newsgroups.end()) {
-        return nullptr;
-    }
-    
-    const Newsgroup &newsgroup = *iterator;
-    
-    auto articleIterator = find_if(newsgroup.getArticles().begin(), newsgroup.getArticles().end(), [&articleId] (const Article &article) { return article.getId() == static_cast<unsigned int>(articleId); });
-    
-    if(articleIterator == newsgroup.getArticles().end()) {
-        return nullptr;
-    }
-    
-    return &(*articleIterator);
-}
-
-bool DatabaseMemory::deleteArticle(const int groupId, const int articleId) {
+bool DatabaseMemory::deleteArticle(const Newsgroup *newsgroup, const int id) {
+    return newsgroup->deleteArticle(id);
+    /*
     auto iterator = find_if(m_newsgroups.begin(), m_newsgroups.end(), [&groupId] (const Newsgroup &newsgroup) { return newsgroup.getId() == static_cast<unsigned int>(groupId); });
     
     if(iterator == m_newsgroups.end()) {
@@ -86,4 +76,5 @@ bool DatabaseMemory::deleteArticle(const int groupId, const int articleId) {
     }
         
     return iterator->deleteArticle(articleId);
+    */
 }

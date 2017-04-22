@@ -5,6 +5,8 @@
 #include "process.h"
 
 #include <iostream>
+#include <limits.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,11 +20,28 @@ int main(int argc, const char **argv) {
     unsigned short port = -1;
     
     try {
-        port = stoi(argv[1]);
+        int intPort = atoi(argv[1]);
+        
+        if(intPort < 0 || intPort > USHRT_MAX) {
+            throw exception();
+        }
+        
+        port = intPort;
     } catch(exception &e) {
         cerr << "Invalid port number. " << e.what() << endl;
         
         exit(1);
+    }
+    
+    bool usingMemory = true;
+    
+    if(argc > 2) {
+        string databaseType = argv[2];
+        transform(databaseType.begin(), databaseType.end(), databaseType.begin(), ::tolower);
+        
+        if(databaseType == "disk") {
+            usingMemory = false;
+        }
     }
     
     Server server(port);
@@ -33,8 +52,14 @@ int main(int argc, const char **argv) {
         exit(1);
     }
     
+    else {
+        cout << "Server started at port " << port << ".\n";
+        cout << "Using database-type: " << (usingMemory ? "memory" : "disk") << endl;
+        cout << "---------------------------------------\n";
+    }
+    
     MessageHandler messageHandler;
-    Process process;
+    Process process(usingMemory);
     
     while(true) {
         auto conn = server.waitForActivity();

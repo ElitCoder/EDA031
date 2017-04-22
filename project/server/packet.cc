@@ -7,24 +7,10 @@
 
 using namespace std;
 
-Packet::Packet() : m_finalized(false), m_read(1) {
-}
-
-ostream& operator<<(ostream& out, const Packet &packet) {
-    for_each(packet.m_data.begin(), packet.m_data.end(), [&out] (const unsigned char c) { out << hex << c << dec << " "; });
-    
-    return out;
-}
-
-bool Packet::isEditable() {
-    return !m_finalized;
+Packet::Packet() : m_read(1) {
 }
 
 void Packet::addInt(const int value, const bool identifier) {
-    if(!isEditable()) {
-        return;
-    }
-    
     if(identifier) {
         m_data.push_back(Protocol::PAR_NUM);
     }
@@ -40,42 +26,15 @@ void Packet::addByte(const unsigned char byte) {
 }
 
 void Packet::addString(const string &str) {
-    if(!isEditable()) {
-        return;
-    }
-    
-    m_data.push_back(Protocol::PAR_STRING);
+    addByte(Protocol::PAR_STRING);
     addInt(str.length(), false);
     
     copy(str.begin(), str.end(), back_inserter(m_data));
 }
 
-void Packet::addHeader(const unsigned char header) {
-    if(!isEditable()) {
-        return;
-    }
-    
-    m_data.push_back(header);
-}
-
-void Packet::addTail(const unsigned char tail) {
-    if(!isEditable()) {
-        return;
-    }
-    
-    m_data.push_back(tail);
-    
-    finish();
-}
-
 void Packet::clean() {
     m_data.clear();
-    m_finalized = false;
     m_read = 1;
-}
-
-void Packet::finish() {
-    m_finalized = true;
 }
 
 const vector<unsigned char>& Packet::data() const {
@@ -83,7 +42,7 @@ const vector<unsigned char>& Packet::data() const {
 }
 
 unsigned char Packet::getHeader() const {
-    if(m_data.size() == 0) {
+    if(m_data.empty()) {
         cout << "ERROR: Caught getHeader() with packet-size 0.\n";
         
         throw ConnectionClosedException();
@@ -96,15 +55,11 @@ string Packet::getString() {
     ++m_read; //SKIP PAR_STRING
     unsigned int size = getInt(false);
     string str;
-    
-    cout << "String with size: " << size << endl;
-    
+        
     for(unsigned int i = 0; i != size; ++i) {
         str += m_data.at(m_read++);
     }
-    
-    cout << "Successfully read string.\n";
-    
+        
     return str;
 }
 

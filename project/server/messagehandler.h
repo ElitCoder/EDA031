@@ -8,11 +8,6 @@
 
 class MessageHandler {
 public:
-    MessageHandler();
-    
-    MessageHandler(const MessageHandler &messageHandler) = delete;
-    MessageHandler& operator==(const MessageHandler &messageHandler) = delete;
-    
     Packet& read(const std::shared_ptr<Connection> &conn);
     void send(const std::shared_ptr<Connection> &conn, const Packet &packet) const;
     

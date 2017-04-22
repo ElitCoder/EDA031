@@ -34,3 +34,9 @@ bool Newsgroup::deleteArticle(const int id) {
     
     return true;
 }
+
+const Article* Newsgroup::getArticle(const int id) const {
+    auto iterator = find_if(m_articles.begin(), m_articles.end(), [&id] (const Article &article) { return article.getId() == static_cast<unsigned int>(id); });
+    
+    return (iterator == m_articles.end() ? nullptr : &(*iterator));
+}
