@@ -36,7 +36,7 @@ unsigned char Stream::getByte() {
 }
 
 int Stream::getInt() {
-    m_conn->read(); //SKIP PAR_NUM
+    m_conn->read();
     
     unsigned char byte1 = m_conn->read();
     unsigned char byte2 = m_conn->read();
@@ -48,25 +48,7 @@ int Stream::getInt() {
 
 string Stream::getString() {
     unsigned int length = getInt();
-    
-    /*
-    m_conn->read(); //SKIP PAR_STRING
-    
-    unsigned char byte1 = m_conn->read();
-    unsigned char byte2 = m_conn->read();
-    unsigned char byte3 = m_conn->read();
-    unsigned char byte4 = m_conn->read();
-    
-    int length = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4;
-    */
-    
     string str;
-    
-    /*
-    if(m_data.size() <= (m_read + size)) {
-        throw InvalidProtocolException();
-    }
-    */
     
     for(unsigned int i = 0; i != length; ++i) {
         str += m_conn->read();

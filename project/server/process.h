@@ -18,7 +18,7 @@ public:
     Process(const Process &&process) = delete;
     Process& operator==(const Process &&process) = delete;
     
-    void process(/*Packet &packet*/std::shared_ptr<Connection> &conn);
+    void process(std::shared_ptr<Connection> &conn);
     
 private:
     void commandListNewsgroups();
@@ -29,8 +29,8 @@ private:
     void commandGetArticle();
     void commandDeleteArticle();
     
-    //Packet *m_currentPacket;
-    //Packet m_response;
+    bool validCommand(const unsigned char command) const;
+
     Database *m_database;
     Stream m_stream;
 };

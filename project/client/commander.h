@@ -1,23 +1,22 @@
 #ifndef COMMANDER_H
 #define COMMANDER_H
 
-#include "packet.h"
+#include "stream.h"
 
 class Commander {
 public:
+    Commander(std::shared_ptr<Connection> &conn);
+    
     void listNewsgroups();
     void createNewsgroup();
     void deleteNewsgroup();
     void listArticles();
     void createArticle();
     void deleteArticle();
-    void getArticle();
-    
-    const Packet& getPacket() const;
-    void clean(); 
+    void getArticle();   
     
 private:
-    Packet m_packet;
+    Stream m_stream;
 };
 
 #endif

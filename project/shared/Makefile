@@ -5,14 +5,14 @@ CPPFLAGS =  -std=c++11
 CXXFLAGS =  -O2 -Wall -Wextra -pedantic-errors -Wold-style-cast 
 CXXFLAGS += -std=c++11 
 
-all: libcommunication.a
+all: libproject.a
 
-libcommunication.a: article.o newsgroup.o messagehandler.o packet.o
-	ar rv libcommunication.a article.o newsgroup.o messagehandler.o packet.o
-	ranlib libcommunication.a
+libproject.a: article.o newsgroup.o stream.o
+	ar rv libproject.a article.o newsgroup.o stream.o
+	ranlib libproject.a
 
 clean:
-	rm -f *.o libcommunication.a *.d*
+	rm -f *.o libproject.a *.d*
 
 %.d: %.cc
 	@set -e; rm -f $@; \

@@ -2,6 +2,7 @@
 #include "protocol.h"
 #include "databasememory.h"
 #include "databasedisk.h"
+#include "invalidprotocolexception.h"
 
 #include <iostream>
 
@@ -21,13 +22,19 @@ Process::~Process() {
     delete m_database;
 }
 
-void Process::process(shared_ptr<Connection> &conn/*Packet &packet*/) {
-    //m_currentPacket = &packet;
-    //m_response.clean();
-    
+bool Process::validCommand(const unsigned char command) const {
+    return ((command >= Protocol::COM_LIST_NG && command <= Protocol::COM_GET_ART) || (command >= Protocol::ANS_LIST_NG && command <= Protocol::ANS_GET_ART));
+}
+
+void Process::process(shared_ptr<Connection> &conn) {
     m_stream.setConnection(conn);
     
     unsigned char command = m_stream.getByte();
+    
+    if(!validCommand(command)) {
+        throw InvalidProtocolException();
+    }
+    
     cout << "Received command: ";
     
     switch(command) {
@@ -65,6 +72,12 @@ void Process::process(shared_ptr<Connection> &conn/*Packet &packet*/) {
                 cout << "COM_DELETE_ART.\n";
                 commandDeleteArticle();
             break;
+    }
+    
+    command = m_stream.getByte();
+    
+    if(command != Protocol::COM_END) {
+        throw InvalidProtocolException();
     }
 }
 

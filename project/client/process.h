@@ -1,17 +1,26 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-#include "packet.h"
+#include "stream.h"
+
+#include <memory>
 
 class Process {
 public:
-    void process(Packet &packet);
+    Process(std::shared_ptr<Connection> &conn);
+    
+    void process();
     
 private:
     void listNewsgroups();
     void createNewsgroup();
+    void deleteNewsgroup();
+    void listArticles();
+    void createArticle();
+    void deleteArticle();
+    void getArticle();
     
-    Packet *m_packet;
+    Stream m_stream;    
 };
 
 #endif

@@ -6,7 +6,7 @@ CXXFLAGS  = -O2 -Wall -W -pedantic-errors
 CXXFLAGS += -Wmissing-braces -Wparentheses -Wold-style-cast 
 LDFLAGS   = -L../shared/
 
-LDLIBS = -lclientserver -lcommunication
+LDLIBS = -lclientserver -lproject
 
 PROGS = newsclient
 

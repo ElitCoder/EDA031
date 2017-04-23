@@ -1,5 +1,4 @@
 #include "connection.h"
-#include "messagehandler.h"
 #include "commander.h"
 #include "process.h"
 #include "input.h"
@@ -34,7 +33,6 @@ int main(int argc, char **argv) {
         exit(1);
     }
     
-    //Connection conn(argv[1], port);
     shared_ptr<Connection> conn(new Connection(argv[1], port));
     
     if(!conn->isConnected()) {
@@ -43,9 +41,8 @@ int main(int argc, char **argv) {
         exit(1);
     }
     
-    MessageHandler messageHandler;
-    Commander commander;
-    Process process;
+    Commander commander(conn);
+    Process process(conn);
     
     while(true) {
         cout << "Welcome to the news!\n\n";
@@ -62,8 +59,6 @@ int main(int argc, char **argv) {
         
         try {
             int input = Input::getInt();
-            commander.clean();
-            
             cout << endl;
         
             switch(input) {
@@ -111,13 +106,10 @@ int main(int argc, char **argv) {
         }
         
         try {
-            commander.getPacket().print();
-            
-            messageHandler.send(conn, commander.getPacket());
-            auto &packet = messageHandler.read(conn);
-            process.process(packet);
+            process.process();
             
             cin.get();
+            cout << endl;
         } catch(ConnectionClosedException &e) {
             cout << "\n\n** Lost connection to server **\n\n";
             

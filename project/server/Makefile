@@ -6,13 +6,13 @@ CXXFLAGS  = -O2 -Wall -W -pedantic-errors
 CXXFLAGS += -Wmissing-braces -Wparentheses -Wold-style-cast 
 LDFLAGS   = -L../shared/
 
-LDLIBS = -lclientserver -lcommunication
+LDLIBS = -lclientserver -lproject
 
 PROGS = newsserver
 
 all: $(PROGS)
 
-newsserver: newsserver.o process.o databasememory.o database.o databasedisk.o stream.o
+newsserver: newsserver.o process.o databasememory.o database.o databasedisk.o
 
 clean:
 	rm -f *.o $(PROGS) *.d*
