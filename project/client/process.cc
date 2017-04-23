@@ -76,22 +76,126 @@ void Process::deleteNewsgroup() {
     unsigned char answer = m_stream.getByte();
     
     if(answer == Protocol::ANS_ACK) {
-        cout << "Newsgroup deleted!\n";
+        cout << "Newsgroup deleted!";
     }
     
     else {
+        answer = m_stream.getByte();
         
+        switch(answer) {
+            case Protocol::ERR_NG_DOES_NOT_EXIST: cout << "Error: newsgroup does not exist.";
+                break;
+                
+            default: cout << "Unknown error code (" << answer << ").";
+        }
     }
+    
+    cout << endl;
 }
 
 void Process::listArticles() {
+    unsigned char answer = m_stream.getByte();
+    
+    if(answer == Protocol::ANS_NAK) {
+        answer = m_stream.getByte();
+        
+        switch(answer) {
+            case Protocol::ERR_NG_DOES_NOT_EXIST: cout << "Error: newsgroup does not exist.";
+                break;
+                
+            default: cout << "Unknown error code (" << answer << ").";
+        }
+        
+        cout << endl;
+        return;
+    }
+    
+    cout << "Articles:\n";
+    
+    int nbrArticles = m_stream.getInt();
+    
+    for(int i = 0; i != nbrArticles; ++i) {
+        int id = m_stream.getInt();
+        string title = m_stream.getString();
+        
+        cout << id << ". " << title << endl;
+    }
+    
+    cout << endl;
 }
 
 void Process::createArticle() {
+    unsigned char answer = m_stream.getByte();
+    
+    if(answer == Protocol::ANS_ACK) {
+        cout << "Article was created!\n";
+    }
+    
+    else {
+        answer = m_stream.getByte();
+        
+        switch(answer) {
+            case Protocol::ERR_NG_DOES_NOT_EXIST: cout << "Error: newsgroup does not exist.";
+                break;
+                
+            default: cout << "Unknown error code (" << answer << ").";
+        }
+        
+        cout << endl;
+    }
 }
 
 void Process::deleteArticle() {
+    unsigned char answer = m_stream.getByte();
+    
+    if(answer == Protocol::ANS_ACK) {
+        cout << "Article was deleted!\n";
+    }
+    
+    else {
+        answer = m_stream.getByte();
+        
+        switch(answer) {
+            case Protocol::ERR_NG_DOES_NOT_EXIST: cout << "Error: newsgroup does not exist.";
+                break;
+                
+            case Protocol::ERR_ART_DOES_NOT_EXIST: cout << "Error: article does not exist.";
+                break;
+                
+            default: cout << "Unknown error code (" << answer << ").";
+        }
+        
+        cout << endl;
+    }
 }
 
-void Process::getArticle() {    
+void Process::getArticle() {
+    unsigned char answer = m_stream.getByte();
+    
+    if(answer == Protocol::ANS_NAK) {
+        answer = m_stream.getByte();
+        
+        switch(answer) {
+            case Protocol::ERR_NG_DOES_NOT_EXIST: cout << "Error: newsgroup does not exist.";
+                break;
+                
+            case Protocol::ERR_ART_DOES_NOT_EXIST: cout << "Error: article does not exist.";
+                break;
+                
+            default: cout << "Unknown error code (" << answer << ").";
+        }
+        
+        cout << endl;
+        return;
+    }
+    
+    cout << endl;
+    
+    string title = m_stream.getString();
+    string author = m_stream.getString();
+    string text = m_stream.getString();
+    
+    cout << "Title: " << title << endl;
+    cout << "Author: " << author << endl;
+    cout << endl << text << endl;
 }

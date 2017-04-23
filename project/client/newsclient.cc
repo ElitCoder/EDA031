@@ -48,12 +48,12 @@ int main(int argc, char **argv) {
         cout << "Welcome to the news!\n\n";
         cout << "Available commands:\n";
         cout << "1. List newsgroups.\n";
-        cout << "2. Create a newsgroup (<title>).\n";
-        cout << "3. Delete a newsgroup (<group id>).\n";
-        cout << "4. List articles in newsgroup (<group id>).\n";
-        cout << "5. Create an article (<group id> <title> <author> <text>).\n";
-        cout << "6. Delete an article (<group id> <article id>).\n";
-        cout << "7. Get an article (<group id> <article id>).\n";
+        cout << "2. Create a newsgroup.\n";
+        cout << "3. Delete a newsgroup.\n";
+        cout << "4. List articles in newsgroup.\n";
+        cout << "5. Create an article.\n";
+        cout << "6. Delete an article.\n";
+        cout << "7. Get an article.\n";
         cout << "8. Quit.\n";
         cout << "\n: ";
         
