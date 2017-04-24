@@ -9,6 +9,7 @@ clean:
 	cd src/shared/ && make clean
 	cd src/server/ && make clean
 	cd src/client/ && make clean
+	rm -f bin/*
 	
 install: makeall
 	cp src/server/newsserver bin/
